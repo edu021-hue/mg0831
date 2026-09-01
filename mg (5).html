@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MG 맞춤형 출자금 해지 방어 매뉴얼</title>
+    <!-- Tailwind CSS (환경에 따라 자동 로드될 수 있으나, 단독 실행을 위해 명시) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 커스텀 슬라이더 스타일링 */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #005AAB; /* MG 블루 */
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #E2E8F0;
+            border-radius: 4px;
+        }
+        input[type=range]:focus {
+            outline: none;
+        }
+        .mg-bg-primary { background-color: #005AAB; }
+        .mg-text-primary { color: #005AAB; }
+        .mg-border-primary { border-color: #005AAB; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans text-gray-800">
+
+    <!-- 헤더 -->
+    <header class="mg-bg-primary text-white shadow-md">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex items-center gap-3">
+            <!-- MG 로고 심볼 (아이콘 대체) -->
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight">금고재무지원 컨설팅 시스템</h1>
+                <p class="text-sm text-blue-100 mt-1">MG 맞춤형 출자금 해지 방어 매뉴얼</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨텐츠 -->
+    <main class="max-w-5xl mx-auto px-4 py-8">
+        
+        <!-- 입력 섹션 -->
+        <section class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 md:p-8 mb-8">
+            <h2 class="text-xl font-bold mb-6 flex items-center gap-2 border-b pb-3">
+                <svg class="w-5 h-5 mg-text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                금고 현황 입력
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- 자산 규모 -->
+                <div class="space-y-4">
+                    <label class="block text-sm font-semibold text-gray-700">총 자산 규모 (억원)</label>
+                    <div class="flex items-center gap-4">
+                        <input type="range" id="assetSlider" min="10" max="15000" step="10" value="1500" class="flex-1">
+                        <div class="w-24 text-right">
+                            <input type="number" id="assetInput" value="1500" class="w-full text-right font-bold text-lg border-b-2 mg-border-primary focus:outline-none focus:bg-blue-50 transition-colors">
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 text-right">최대 1조 5,000억원 설정 가능</p>
+                </div>
+
+                <!-- 자본 규모 -->
+                <div class="space-y-4">
+                    <label class="block text-sm font-semibold text-gray-700">자기 자본 규모 (억원)</label>
+                    <div class="flex items-center gap-4">
+                        <input type="range" id="capitalSlider" min="1" max="1500" step="1" value="75" class="flex-1">
+                        <div class="w-24 text-right">
+                            <input type="number" id="capitalInput" value="75" class="w-full text-right font-bold text-lg border-b-2 mg-border-primary focus:outline-none focus:bg-blue-50 transition-colors">
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 text-right">※ 출자금 이탈 방어를 위한 자본적정성 산출에 활용됩니다.</p>
+                </div>
+
+                <!-- 도농 구분 -->
+                <div class="space-y-4 md:col-span-2">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">금고 주 영업권역 (도농 구분)</label>
+                    <div class="flex gap-4">
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="region" value="urban" class="peer sr-only" checked>
+                            <div class="w-full text-center py-3 rounded-lg border-2 border-gray-200 peer-checked:mg-border-primary peer-checked:bg-blue-50 peer-checked:mg-text-primary font-medium transition-all">
+                                도시형 (도심, 상업지구)
+                            </div>
+                        </label>
+                        <label class="flex-1 cursor-pointer">
+                            <input type="radio" name="region" value="rural" class="peer sr-only">
+                            <div class="w-full text-center py-3 rounded-lg border-2 border-gray-200 peer-checked:mg-border-primary peer-checked:bg-blue-50 peer-checked:mg-text-primary font-medium transition-all">
+                                농촌형 (농어촌, 구도심)
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button id="analyzeBtn" class="mg-bg-primary hover:bg-blue-800 text-white font-bold py-3 px-10 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5">
+                    맞춤형 방어 전략 분석하기
+                </button>
+            </div>
+        </section>
+
+        <!-- 결과 섹션 (초기 숨김) -->
+        <section id="resultSection" class="hidden space-y-6">
+            
+            <!-- 진단 요약 카드 -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-1">분석 결과 요약</h3>
+                    <p class="text-gray-600" id="summaryText">자산 <span class="font-bold">0억원</span>, <span class="font-bold">도시형</span> 금고로 <span class="font-bold mg-text-primary">대형 금고</span> 전략이 필요합니다.</p>
+                </div>
+                
+                <div class="bg-gray-50 rounded-lg p-4 w-full md:w-auto min-w-[250px] border border-gray-200">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-semibold text-gray-600">추정 단순자기자본비율</span>
+                        <span id="capitalRatioValue" class="font-bold text-lg">0.0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2.5">
+                        <div id="capitalRatioBar" class="h-2.5 rounded-full mg-bg-primary" style="width: 0%"></div>
+                    </div>
+                    <p id="capitalWarningText" class="text-xs mt-2 text-red-500 font-medium"></p>
+                </div>
+            </div>
+
+            <!-- 전략 카드 그리드 -->
+            <h3 class="text-xl font-bold mt-8 mb-4 border-l-4 mg-border-primary pl-3">배당 대체 및 출자금 이탈 방어 3대 전략</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="strategyCards">
+                <!-- JavaScript를 통해 동적 생성됨 -->
+            </div>
+            
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const assetSlider = document.getElementById('assetSlider');
+            const assetInput = document.getElementById('assetInput');
+            const capitalSlider = document.getElementById('capitalSlider');
+            const capitalInput = document.getElementById('capitalInput');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const resultSection = document.getElementById('resultSection');
+            
+            // 양방향 바인딩 (자산)
+            assetSlider.addEventListener('input', (e) => assetInput.value = e.target.value);
+            assetInput.addEventListener('input', (e) => assetSlider.value = e.target.value);
+            
+            // 양방향 바인딩 (자본)
+            capitalSlider.addEventListener('input', (e) => capitalInput.value = e.target.value);
+            capitalInput.addEventListener('input', (e) => capitalSlider.value = e.target.value);
+
+            analyzeBtn.addEventListener('click', () => {
+                const asset = parseFloat(assetInput.value);
+                const capital = parseFloat(capitalInput.value);
+                const region = document.querySelector('input[name="region"]:checked').value;
+                
+                if(isNaN(asset) || isNaN(capital) || asset <= 0) {
+                    alert("정확한 금액을 입력해주세요.");
+                    return;
+                }
+
+                renderResults(asset, capital, region);
+            });
+        });
+
+        function renderResults(asset, capital, region) {
+            // 1. 자본적정성 분석
+            const capitalRatio = ((capital / asset) * 100).toFixed(1);
+            const ratioValueEl = document.getElementById('capitalRatioValue');
+            const ratioBarEl = document.getElementById('capitalRatioBar');
+            const warningTextEl = document.getElementById('capitalWarningText');
+
+            ratioValueEl.textContent = `${capitalRatio}%`;
+            // 최대 15%를 100% 게이지로 매핑
+            let barWidth = Math.min((capitalRatio / 15) * 100, 100);
+            ratioBarEl.style.width = `${barWidth}%`;
+
+            if(capitalRatio < 4.0) {
+                ratioValueEl.className = "font-bold text-lg text-red-600";
+                ratioBarEl.className = "h-2.5 rounded-full bg-red-500";
+                warningTextEl.textContent = "🚨 자본적정성 취약: 배당 불가 불만이 뱅크런으로 이어질 위험이 매우 큽니다. 즉각적인 유동성 확보 요망!";
+                warningTextEl.className = "text-xs mt-2 text-red-600 font-bold";
+            } else if (capitalRatio < 8.0) {
+                ratioValueEl.className = "font-bold text-lg text-yellow-600";
+                ratioBarEl.className = "h-2.5 rounded-full bg-yellow-400";
+                warningTextEl.textContent = "⚠️ 자본적정성 주의: 출자금 대규모 이탈 시 건전성 급격 악화 우려. 적극적 방어 전략 필수.";
+                warningTextEl.className = "text-xs mt-2 text-yellow-600 font-medium";
+            } else {
+                ratioValueEl.className = "font-bold text-lg mg-text-primary";
+                ratioBarEl.className = "h-2.5 rounded-full mg-bg-primary";
+                warningTextEl.textContent = "✅ 자본적정성 양호: 현재 자본력은 안정적이나, 조합원 이탈 방지를 위한 혜택 설계 요망.";
+                warningTextEl.className = "text-xs mt-2 text-green-600 font-medium";
+            }
+
+            // 2. 자산 규모 분류
+            let sizeStr = "";
+            let sizeCategory = ""; // 'L', 'M', 'S'
+            
+            if(asset >= 5000) {
+                sizeStr = "대형 금고";
+                sizeCategory = "L";
+            } else if(asset >= 1000) {
+                sizeStr = "중형 금고";
+                sizeCategory = "M";
+            } else {
+                sizeStr = "소형 금고";
+                sizeCategory = "S";
+            }
+
+            const regionStr = region === 'urban' ? '도시형' : '농촌형';
+            
+            // 요약 텍스트 업데이트
+            document.getElementById('summaryText').innerHTML = 
+                `총자산 <span class="font-bold">${asset.toLocaleString()}억원</span>, <span class="font-bold">${regionStr}</span> 특성을 가진 <span class="font-bold mg-text-primary">${sizeStr}</span>입니다.`;
+
+            // 3. 전략 카드 데이터 생성 (마크다운 기반)
+            const strategies = getStrategies(sizeCategory, region);
+            const cardsContainer = document.getElementById('strategyCards');
+            cardsContainer.innerHTML = ''; // 초기화
+
+            const icons = [
+                `<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`,
+                `<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>`,
+                `<svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>`
+            ];
+
+            strategies.forEach((strat, index) => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow";
+                card.innerHTML = `
+                    <div class="mg-bg-primary p-4 flex items-center gap-3">
+                        ${icons[index]}
+                        <h4 class="text-white font-bold text-lg">${strat.title}</h4>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 text-sm leading-relaxed">${strat.desc}</p>
+                    </div>
+                `;
+                cardsContainer.appendChild(card);
+            });
+
+            // 결과 보이기 및 스크롤
+            document.getElementById('resultSection').classList.remove('hidden');
+            document.getElementById('resultSection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function getStrategies(size, region) {
+            let st = [];
+            if(size === 'L') {
+                st = [
+                    { title: "고금리 특판 / 대출 우대", desc: "출자금을 유지하는 회원을 대상으로 한정판 고금리 예·적금 특판 상품 가입 권한을 부여하거나, 대출 금리 인하(우대 쿠폰) 혜택을 제공하여 실질적인 금융 이익을 보전해야 합니다." },
+                    { title: "투명한 위기관리 로드맵 제시", desc: "임의적립금과 특별적립금을 통한 재무 안정성을 설명하고, 우량 자산 중심의 포트폴리오 개편 및 차기 연도 배당 재개 목표를 담은 서한을 발송하여 대규모 자본 이탈의 근본 원인인 '불안감'을 차단하세요." },
+                    { title: "VIP 프리미엄 서비스", desc: region === 'urban' ? 
+                        "우수 출자 회원을 대상으로 세무/부동산 컨설팅 서비스, 문화예술 공연 초청 등 도심형 고부가가치 VIP 혜택을 제공하여 타 금융권으로의 이탈을 방지하세요." : 
+                        "지역 내 대형 병원과 연계한 프리미엄 건강검진 할인권 제공 등 실질적인 혜택을 통해 '대접받고 있다'는 소속감을 부여하세요." }
+                ];
+            } else if (size === 'M') {
+                st = [
+                    { title: "복지 시설 및 문화센터 강화", desc: "금고가 운영하는 문화센터(요가, 노래교실 등), 헬스장, 카페 등의 무료 또는 파격 할인 이용권을 출자 회원에게 제공하여 일상에서의 여가 비용을 절감해 주는 간접 혜택을 제공하세요." },
+                    { title: "지역 상권 연계 페이백 시스템", desc: "금고 주변의 지역 마트, 병원, 식당 등과 제휴를 맺고, 출자 회원이 MG체크카드로 결제 시 추가 캐시백이나 즉시 할인을 받을 수 있는 바우처를 제공하여 지역 밀착형 소비 혜택을 강화하세요." },
+                    { title: "맞춤형 실물 사은품 지급", desc: "명절이나 연말에 지역 특산물, 생필품 세트 등 배당액의 일부 가치에 상응하는 고품질의 실물 사은품을 제공하여 서운함을 달래고 유대감을 유지시키세요." }
+                ];
+            } else {
+                st = [
+                    { title: "대면 소통과 감성적 접근", desc: "이사장 및 임원진이 총회나 간담회를 통해 현재의 어려움을 투명하게 공유하고, '지역 사회의 버팀목인 금고를 지켜달라'는 진정성 있는 소통을 통해 끈끈한 유대감에 호소하세요." },
+                    { title: "상생 역할 및 사회공헌 강조", desc: "배당은 못 하지만, 지역 소상공인과 이웃을 위한 서민 대출과 지원에 앞장서고 있다는 스토리를 적극 홍보하여 출자금이 지역 사회를 살리는 데 쓰이고 있다는 자부심을 심어주세요." },
+                    { title: "소규모 커뮤니티 행사", desc: region === 'rural' ? 
+                        "대규모 예산이 들지 않는 마을 단위 윷놀이 대회, 효도 잔치 등을 주최하여 금고가 '지역민의 사랑방' 기능을 유지하도록 하세요." : 
+                        "건강 강좌, 구도심 환경 정화 캠페인 등 조합원이 직접 참여할 수 있는 소규모 행사를 통해 공동체 의식을 강화하세요." }
+                ];
+            }
+            return st;
+        }
+    </script>
+</body>
+</html>
